@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "OrderIn";
+}
+
+<head>
+
+<title></title>
+<script type="text/javascript" src="~/Scripts/OrderInList.js"></script>
+<link href="/Styles/OrderInStyle.css" rel="stylesheet">
+
+</head>
+
+<h2>Order In</h2>
+
+<form action="/Home/GetRestruantDL" id="orderInForm" method="post">
+    <p>Delivery Time</p>
+    <input name="delivery_time" id="delivery_time" type="text">
+    <p>Zip Code</p>
+    <input name="zipCode" id="zipCode" type="text">
+    <p>City</p>
+    <input name="city" id="city" type="text">
+    <p>Street Address</p>
+    <input name="streetAddress" id="streetAddress" type="text">
+    <input value="Submit" type="submit">
+</form>
+<div id="restruantList"></div>
+<div id="menuCategories"></div>
+<div id="displayCategory"></div>
+<div id="checkout">Checkout</div>
+<div id="cart" class="cart"><h3>Cart</h3></div>
+<div id="order"><h4>Order</h4></div>

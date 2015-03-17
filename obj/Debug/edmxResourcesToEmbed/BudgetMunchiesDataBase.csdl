@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BudgetMunchiesDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="BMUser">
+    <Key>
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="UserToken" Relationship="Self.FK_UserTokens_BMUsers" FromRole="BMUsers" ToRole="UserTokens" />
+    <NavigationProperty Name="UserTokens" Relationship="BudgetMunchiesDBModel.FK_UserTokens_BMUsers1" FromRole="BMUser" ToRole="UserToken" />
+  </EntityType>
+  <EntityType Name="Developer">
+    <Key>
+      <PropertyRef Name="userName" />
+    </Key>
+    <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="apiKey" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="DeveloperToken" Relationship="Self.FK_DeveloperTokens_Developers" FromRole="Developers" ToRole="DeveloperTokens" />
+    <NavigationProperty Name="DeveloperTokens" Relationship="BudgetMunchiesDBModel.FK_DeveloperTokens_Developers1" FromRole="Developer" ToRole="DeveloperToken" />
+  </EntityType>
+  <EntityType Name="DeveloperToken">
+    <Key>
+      <PropertyRef Name="Token" />
+    </Key>
+    <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Developer" Relationship="Self.FK_DeveloperTokens_Developers" FromRole="DeveloperTokens" ToRole="Developers" />
+    <Property Name="userName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Developer1" Relationship="BudgetMunchiesDBModel.FK_DeveloperTokens_Developers1" FromRole="DeveloperToken" ToRole="Developer" />
+  </EntityType>
+  <EntityType Name="UserToken">
+    <Key>
+      <PropertyRef Name="Token" />
+    </Key>
+    <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="BMUser" Relationship="Self.FK_UserTokens_BMUsers" FromRole="UserTokens" ToRole="BMUsers" />
+    <Property Name="BMUser1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BMUser11" Relationship="BudgetMunchiesDBModel.FK_UserTokens_BMUsers1" FromRole="UserToken" ToRole="BMUser" />
+  </EntityType>
+  <Association Name="FK_UserTokens_BMUsers">
+    <End Role="BMUsers" Type="Self.BMUser" Multiplicity="1" />
+    <End Role="UserTokens" Type="Self.UserToken" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="BMUsers">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="UserTokens">
+        <PropertyRef Name="Token" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeveloperTokens_Developers">
+    <End Role="Developers" Type="Self.Developer" Multiplicity="1" />
+    <End Role="DeveloperTokens" Type="Self.DeveloperToken" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Developers">
+        <PropertyRef Name="userName" />
+      </Principal>
+      <Dependent Role="DeveloperTokens">
+        <PropertyRef Name="Token" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BudgetMunchiesDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BMUsers" EntityType="Self.BMUser" />
+    <EntitySet Name="Developers" EntityType="Self.Developer" />
+    <EntitySet Name="DeveloperTokens" EntityType="Self.DeveloperToken" />
+    <EntitySet Name="UserTokens" EntityType="Self.UserToken" />
+    <AssociationSet Name="FK_UserTokens_BMUsers" Association="Self.FK_UserTokens_BMUsers">
+      <End Role="BMUsers" EntitySet="BMUsers" />
+      <End Role="UserTokens" EntitySet="UserTokens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeveloperTokens_Developers" Association="Self.FK_DeveloperTokens_Developers">
+      <End Role="Developers" EntitySet="Developers" />
+      <End Role="DeveloperTokens" EntitySet="DeveloperTokens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserTokens_BMUsers1" Association="BudgetMunchiesDBModel.FK_UserTokens_BMUsers1">
+      <End Role="BMUser" EntitySet="BMUsers" />
+      <End Role="UserToken" EntitySet="UserTokens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeveloperTokens_Developers1" Association="BudgetMunchiesDBModel.FK_DeveloperTokens_Developers1">
+      <End Role="Developer" EntitySet="Developers" />
+      <End Role="DeveloperToken" EntitySet="DeveloperTokens" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_UserTokens_BMUsers1">
+    <End Type="BudgetMunchiesDBModel.BMUser" Role="BMUser" Multiplicity="1" />
+    <End Type="BudgetMunchiesDBModel.UserToken" Role="UserToken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BMUser">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="UserToken">
+        <PropertyRef Name="BMUser1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeveloperTokens_Developers1">
+    <End Type="BudgetMunchiesDBModel.Developer" Role="Developer" Multiplicity="1" />
+    <End Type="BudgetMunchiesDBModel.DeveloperToken" Role="DeveloperToken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Developer">
+        <PropertyRef Name="userName" />
+      </Principal>
+      <Dependent Role="DeveloperToken">
+        <PropertyRef Name="userName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

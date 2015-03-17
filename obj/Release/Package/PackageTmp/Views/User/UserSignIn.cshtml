@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "UserSignIn";
+}
+
+<h2>User Login</h2>
+<form action="@Url.Action("UserSignIn", "User")" method="post">
+
+    <p>Username</p>
+    <input type="text" name="userName" />
+    <p>Password</p>
+    <input type="text" name="password" />
+    <input type="submit" value="Submit" />
+</form>

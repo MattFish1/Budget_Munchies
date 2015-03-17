@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BudgetMunchiesDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BMUsers">
+    <Key>
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Developers">
+    <Key>
+      <PropertyRef Name="userName" />
+    </Key>
+    <Property Name="userName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="firstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="lastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="apiKey" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DeveloperTokens">
+    <Key>
+      <PropertyRef Name="Token" />
+    </Key>
+    <Property Name="Token" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="userName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserTokens">
+    <Key>
+      <PropertyRef Name="Token" />
+    </Key>
+    <Property Name="Token" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="BMUser" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_DeveloperTokens_Developers">
+    <End Role="Developers" Type="Self.Developers" Multiplicity="1" />
+    <End Role="DeveloperTokens" Type="Self.DeveloperTokens" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Developers">
+        <PropertyRef Name="userName" />
+      </Principal>
+      <Dependent Role="DeveloperTokens">
+        <PropertyRef Name="userName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserTokens_BMUsers">
+    <End Role="BMUsers" Type="Self.BMUsers" Multiplicity="1" />
+    <End Role="UserTokens" Type="Self.UserTokens" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BMUsers">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="UserTokens">
+        <PropertyRef Name="BMUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BudgetMunchiesDBModelStoreContainer">
+    <EntitySet Name="BMUsers" EntityType="Self.BMUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Developers" EntityType="Self.Developers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DeveloperTokens" EntityType="Self.DeveloperTokens" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserTokens" EntityType="Self.UserTokens" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_DeveloperTokens_Developers" Association="Self.FK_DeveloperTokens_Developers">
+      <End Role="Developers" EntitySet="Developers" />
+      <End Role="DeveloperTokens" EntitySet="DeveloperTokens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserTokens_BMUsers" Association="Self.FK_UserTokens_BMUsers">
+      <End Role="BMUsers" EntitySet="BMUsers" />
+      <End Role="UserTokens" EntitySet="UserTokens" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

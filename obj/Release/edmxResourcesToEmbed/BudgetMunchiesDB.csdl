@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BudgetMunchiesDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="BMUser">
+    <Key>
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="UserTokens" Relationship="Self.FK_UserTokens_BMUsers" FromRole="BMUsers" ToRole="UserTokens" />
+  </EntityType>
+  <EntityType Name="Developer">
+    <Key>
+      <PropertyRef Name="userName" />
+    </Key>
+    <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="apiKey" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="DeveloperTokens" Relationship="Self.FK_DeveloperTokens_Developers" FromRole="Developers" ToRole="DeveloperTokens" />
+  </EntityType>
+  <EntityType Name="DeveloperToken">
+    <Key>
+      <PropertyRef Name="Token" />
+    </Key>
+    <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Developer" Relationship="Self.FK_DeveloperTokens_Developers" FromRole="DeveloperTokens" ToRole="Developers" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="UserToken">
+    <Key>
+      <PropertyRef Name="Token" />
+    </Key>
+    <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="BMUser" Relationship="Self.FK_UserTokens_BMUsers" FromRole="UserTokens" ToRole="BMUsers" />
+    <Property Name="LastUsed" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <Association Name="FK_UserTokens_BMUsers">
+    <End Role="BMUsers" Type="Self.BMUser" Multiplicity="1" />
+    <End Role="UserTokens" Type="Self.UserToken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BMUsers">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="UserTokens">
+        <PropertyRef Name="UserName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeveloperTokens_Developers">
+    <End Role="Developers" Type="Self.Developer" Multiplicity="1" />
+    <End Role="DeveloperTokens" Type="Self.DeveloperToken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Developers">
+        <PropertyRef Name="userName" />
+      </Principal>
+      <Dependent Role="DeveloperTokens">
+        <PropertyRef Name="userName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BudgetMunchiesDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BMUsers" EntityType="Self.BMUser" />
+    <EntitySet Name="Developers" EntityType="Self.Developer" />
+    <EntitySet Name="DeveloperTokens" EntityType="Self.DeveloperToken" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="UserTokens" EntityType="Self.UserToken" />
+    <AssociationSet Name="FK_UserTokens_BMUsers" Association="Self.FK_UserTokens_BMUsers">
+      <End Role="BMUsers" EntitySet="BMUsers" />
+      <End Role="UserTokens" EntitySet="UserTokens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeveloperTokens_Developers" Association="Self.FK_DeveloperTokens_Developers">
+      <End Role="Developers" EntitySet="Developers" />
+      <End Role="DeveloperTokens" EntitySet="DeveloperTokens" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

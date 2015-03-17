@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<head>
+    <title>Budget Munchies Head</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link href="~/Styles/HomeIndexStyle.css" rel="stylesheet" />
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp" type="text/javascript"></script>
+    <script src="~/Scripts/Map.js" type="text/javascript"></script>
+   
+    
+</head>
+
+<body>
+    <div class="title">
+        <br />
+        <br />
+        <h1>Budget Munchies</h1>
+    </div>
+    <br/>
+    <br/>
+   
+    
+    <div id="altStart">
+        <p>If you are uncomfortable with sharing your location, or geolocation does not work on your browser, submit your zipcode in the form below.</p>
+        <form id ="zcForm" action="@Url.Action("AppStart","Home")" method="post">
+            <input id="zcInput" type="text" name="location" />
+            <input type="submit"  value="Submit" />
+        </form>
+    </div>
+   
+        <div id="map-canvas"></div>
+        <div id="ajaxResult"></div>
+
+
+
+
+</body>

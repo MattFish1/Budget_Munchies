@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "CreateAccount";
+}
+
+<h2>CreateAccount</h2>
+
+<head>
+    <title></title>
+    <script type="text/javascript" src="~/Scripts/CreateBMAcount.js"></script>
+</head>
+<h2>Create Budget Munchies Account</h2>
+<h3 id="normalAccount">Create Normal Acount</h3>
+
+<br />
+
+<h3 id="devAccount">Create Developer Acount</h3>
+<div id="createUser">
+    <form id="userForm" method="post" action="@Url.Action("CreateNormalAccount", "User")">
+        <p>User Name</p>
+        <input type="text" name="userName" />
+        <p>Password</p>
+        <input type="text" name="password" />
+        <p>Firstname</p>
+        <input type="text" name="firstName" />
+        <p>Lastname</p>
+        <input type="text" name="lastName" />
+        <p>Email</p>
+        <input type="text" name="email" />
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+
+<div id="createDev">
+    <form id="devForm" method="post" action="@Url.Action("CreateDeveloperAccount", "User")">
+        <p>User Name</p>
+        <input type="text" name="userName" />
+        <p>Password</p>
+        <input type="text" name="password" />
+        <p>Firstname</p>
+        <input type="text" name="firstName" />
+        <p>Lastname</p>
+        <input type="text" name="lastName" />
+        <p>Email</p>
+        <input type="text" name="email" />
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+
+<a href="@Url.Action("Mail", "Home")">Mail</a>
